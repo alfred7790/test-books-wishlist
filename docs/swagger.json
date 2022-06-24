@@ -283,7 +283,7 @@
                 }
             }
         },
-        "/v1/wishlists/{id}": {
+        "/v1/wishlists/{id}/books": {
             "post": {
                 "security": [
                     {
@@ -314,6 +314,77 @@
                         "schema": {
                             "$ref": "#/definitions/entity.Book"
                         }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/wishlists/{id}/books/{bookid}": {
+            "delete": {
+                "security": [
+                    {
+                        "APIToken": []
+                    }
+                ],
+                "description": "removing a book from wishlist if it exists",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "removing a book from wishlist",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WishListID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "BookID",
+                        "name": "bookid",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {

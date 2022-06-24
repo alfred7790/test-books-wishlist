@@ -21,4 +21,6 @@ type BooksRepo interface {
 	CreateWishList(wishlist *entity.WishList) (string, error)
 	GetWishLists(userID uint) ([]*entity.WishList, string, error)
 	AddItem(wishListID uint, book *entity.Book) (string, error)
+	RemoveItem(wishListID uint, bookId string) (string, error)
+	GetItem(wishListID uint, bookId string) (*entity.ItemWishList, string, error)
 }

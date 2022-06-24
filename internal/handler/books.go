@@ -124,7 +124,7 @@ func (service *API) GetWishLists(c *gin.Context) {
 // @Failure 403 {object} entity.FailureResponse
 // @Failure 409 {object} entity.FailureResponse
 // @Failure 500 {object} entity.FailureResponse
-// @Router /v1/wishlists/{id} [POST]
+// @Router /v1/wishlists/{id}/books [POST]
 // @Security APIToken
 func (service *API) AddBookToWishList(c *gin.Context) {
 	id := c.Param("id")
@@ -143,6 +143,47 @@ func (service *API) AddBookToWishList(c *gin.Context) {
 	}
 
 	msg, err := service.App.Repo.AddItem(uint(wishListId), input)
+	if err != nil {
+		common.Failure(msg, err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	c.JSON(http.StatusOK, common.Success())
+}
+
+// RemoveItemFromWishList removing a book from wishlist
+// @Summary removing a book from wishlist
+// @Description removing a book from wishlist if it exists
+// @Tags Books
+// @Produce json
+// @Param id path int true "WishListID"
+// @Param bookid path string true "BookID"
+// @Success 200 {object} entity.SuccessResponse
+// @Failure 400 {object} entity.FailureResponse
+// @Failure 401 {object} entity.FailureResponse
+// @Failure 403 {object} entity.FailureResponse
+// @Failure 409 {object} entity.FailureResponse
+// @Failure 500 {object} entity.FailureResponse
+// @Router /v1/wishlists/{id}/books/{bookid} [DELETE]
+// @Security APIToken
+func (service *API) RemoveItemFromWishList(c *gin.Context) {
+	id := c.Param("id")
+
+	wishListId, err := strconv.Atoi(id)
+	if err != nil {
+		common.Failure("The wishListID should be a number", err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	bookID := c.Param("bookid")
+
+	_, msg, err := service.App.Repo.GetItem(uint(wishListId), bookID)
+	if err != nil {
+		common.Failure(msg, err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	msg, err = service.App.Repo.RemoveItem(uint(wishListId), bookID)
 	if err != nil {
 		common.Failure(msg, err.Error(), http.StatusBadRequest, c)
 		return

@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"github.com/jinzhu/gorm"
 	"test-books-wishlist/internal/entity"
 )
 
@@ -47,4 +48,27 @@ func (r *Repo) AddItem(wishListID uint, book *entity.Book) (string, error) {
 	}
 
 	return "", nil
+}
+
+func (r *Repo) RemoveItem(wishListID uint, bookId string) (string, error) {
+	err := r.SQLDB.Where("wish_list_id=? and book_id=?", wishListID, bookId).Delete(&entity.ItemWishList{}).Error
+	if err != nil {
+		return "Cannot delete this book at the moment", err
+	}
+
+	return "", nil
+}
+
+func (r *Repo) GetItem(wishListID uint, bookId string) (*entity.ItemWishList, string, error) {
+	var found entity.ItemWishList
+	err := r.SQLDB.Model(entity.ItemWishList{}).
+		Where("wish_list_id=? and book_id=?", wishListID, bookId).First(&found).Error
+	if err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return nil, "This book doesn't exist", err
+		}
+		return nil, "Cannot get this book at the moment", err
+	}
+
+	return &found, "", nil
 }
