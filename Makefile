@@ -25,7 +25,7 @@ db-down:
 .PHONY: build
 build: generate
 	@echo "Building binary"
-	go build cmd/main.go
+	go build -o ./build/bin/main cmd/main.go
 
 .PHONY: generate
 generate:
@@ -40,5 +40,5 @@ test:
 .PHONY: deploy
 deploy:
 	@echo "Deploying main"
-	./main
+	./build/bin/main
 
