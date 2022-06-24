@@ -2,7 +2,10 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
+	_ "test-books-wishlist/docs"
 	"test-books-wishlist/internal/service"
 )
 
@@ -11,14 +14,16 @@ type API struct {
 }
 
 func AddRoutesV1(r *gin.RouterGroup, app *service.Service) {
-	/*api := API{
+	api := API{
 		App: app,
-	}*/
+	}
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, "V1 is running")
 	})
 
-	// books := r.Group("books")
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
+	users := r.Group("users")
+	users.POST("", api.CreateUser)
 }

@@ -1,0 +1,71 @@
+basePath: /
+definitions:
+  entity.FailureResponse:
+    properties:
+      details:
+        example: Error message for developers
+        type: string
+      message:
+        example: Error message for users
+        type: string
+      status:
+        example: failure
+        type: string
+    type: object
+  entity.User:
+    properties:
+      password:
+        example: Pantufla1234
+        type: string
+      username:
+        example: Pantufla89
+        type: string
+    type: object
+  entity.UserDTO:
+    properties:
+      id:
+        example: 1
+        type: integer
+      username:
+        example: Pantufla89
+        type: string
+    type: object
+info:
+  contact: {}
+  description: Google Books testcase API
+  title: Google Books API - TESTCASE
+  version: "1.0"
+paths:
+  /v1/users:
+    post:
+      description: Used to create a new user
+      parameters:
+      - description: struct to create a new user
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.UserDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+      summary: returns details about a new user was created
+      tags:
+      - Users
+swagger: "2.0"

@@ -25,12 +25,12 @@ db-down:
 .PHONY: build
 build: generate
 	@echo "Building binary"
-	go build main.go
+	go build cmd/main.go
 
 .PHONY: generate
 generate:
 	@echo "Generating swagger docs"
-	$(GOPATH)/bin/swag init
+	$(GOPATH)/bin/swag init -g cmd/main.go
 
 .PHONY: test
 test:
