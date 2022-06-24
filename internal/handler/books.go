@@ -16,6 +16,7 @@ import (
 // @Tags Google Books
 // @Produce json
 // @Param terms query string true "terms (Author, Title, Publisher)"
+// @Param key query string true "Google Books API key"
 // @Success 200 {object} entity.BooksDTO
 // @Failure 400 {object} entity.FailureResponse
 // @Failure 401 {object} entity.FailureResponse
@@ -25,8 +26,13 @@ import (
 // @Security APIToken
 func (service *API) LookForBooks(c *gin.Context) {
 	terms := c.DefaultQuery("terms", "")
+	apiKey, ok := c.GetQuery("key")
+	if !ok {
+		common.Failure("We need an APIkey to query google Books API", "Google Books API is empty", http.StatusBadRequest, c)
+		return
+	}
 
-	resp, err := service.App.GoogleBooksAPI.SearchBooks(terms)
+	resp, err := service.App.GoogleBooksAPI.SearchBooks(terms, apiKey)
 	if err != nil {
 		common.Failure("Cannot request google books at the moment", err.Error(), http.StatusBadRequest, c)
 		return

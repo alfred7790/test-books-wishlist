@@ -19,8 +19,9 @@ type Settings struct {
 	DBRetryCount int    `default:"1"`
 
 	// Google Books API environments
+	// GoogleAPIKey should be injected from environment variables, But as you requested, It can be taken from a query param
 	GoogleHost   string `default:"https://www.googleapis.com/books/v1"`
-	GoogleAPIKey string `default:"AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ"`
+	GoogleAPIKey string `default:"<YourGoogleApiKey>"`
 
 	// KEY for auth
 	SecretKey string `default:"myhash123"`

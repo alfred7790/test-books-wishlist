@@ -38,8 +38,8 @@ func (v *Handle) SetHostAndKey(host, accessKey string) {
 	v.AccessKey = accessKey
 }
 
-func (v *Handle) SearchBooks(terms string) (*entity.GoogleBooksResponse, error) {
-	url := fmt.Sprintf(booksURL, v.CurrencyHost, v.AccessKey, terms, maxResults)
+func (v *Handle) SearchBooks(terms, apiKey string) (*entity.GoogleBooksResponse, error) {
+	url := fmt.Sprintf(booksURL, v.CurrencyHost, apiKey, terms, maxResults)
 	return v.requestBooks(url)
 }
 
@@ -55,31 +55,25 @@ func (v *Handle) requestBooks(url string) (*entity.GoogleBooksResponse, error) {
 		return nil, err
 	}
 
-	if result.StatusCode != 200 {
-		str := fmt.Sprintf("Attempt to query failed with status code %d", result.StatusCode)
-		fmt.Println(str)
-		return nil, errors.New(str)
-	}
-
 	body, err := ioutil.ReadAll(result.Body)
 	if err != nil {
 		return nil, err
 	}
 	var booksBody entity.GoogleBooksResponse
 	var booksBodyErr entity.GoogleBooksError
-	if err = json.Unmarshal(body, &booksBody); err != nil {
-		fmt.Printf("Error: %v\n", err)
-		return nil, err
-	}
 
-	if len(booksBody.Kind) == 0 {
+	if result.StatusCode != 200 {
 		if err = json.Unmarshal(body, &booksBodyErr); err != nil {
 			fmt.Printf("Error: %v\n", err)
 			return nil, err
 		}
 
-		fmt.Println(booksBodyErr.Error)
 		return nil, errors.New(booksBodyErr.Error.Message)
+	}
+
+	if err = json.Unmarshal(body, &booksBody); err != nil {
+		fmt.Printf("Error: %v\n", err)
+		return nil, err
 	}
 
 	return &booksBody, nil

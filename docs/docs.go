@@ -41,6 +41,13 @@ const docTemplate = `{
                         "name": "terms",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Google Books API key",
+                        "name": "key",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {

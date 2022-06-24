@@ -23,7 +23,7 @@ dbretrycount: 5 # default: 1
 # APIKey: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
 # I'll delete this access after you review this project
 googlehost: <googlehost> # Default: https://www.googleapis.com/books/v1
-googleapikey: <googleapikey> # default: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
+googleapikey: <googleapikey> # default: <YourGoogleApiKey>
 
 # Secret key to build token with jwt
 secretkey: <secretkey> # Default: myhash123

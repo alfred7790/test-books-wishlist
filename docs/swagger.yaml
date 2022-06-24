@@ -127,6 +127,11 @@ paths:
         name: terms
         required: true
         type: string
+      - description: Google Books API key
+        in: query
+        name: key
+        required: true
+        type: string
       produces:
       - application/json
       responses:
