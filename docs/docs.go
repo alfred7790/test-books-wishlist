@@ -168,6 +168,70 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/wishlist/{userid}": {
+            "post": {
+                "security": [
+                    {
+                        "APIToken": []
+                    }
+                ],
+                "description": "Used to create a wish list",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "create or update a wish list for books",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userId",
+                        "name": "userid",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "struct to create a new wishlist",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.Book"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -225,6 +289,23 @@ const docTemplate = `{
                 "status": {
                     "type": "string",
                     "example": "failure"
+                }
+            }
+        },
+        "entity.SuccessResponse": {
+            "type": "object",
+            "properties": {
+                "details": {
+                    "type": "string",
+                    "example": "operation completed"
+                },
+                "message": {
+                    "type": "string",
+                    "example": "ok"
+                },
+                "success": {
+                    "type": "boolean",
+                    "example": true
                 }
             }
         },

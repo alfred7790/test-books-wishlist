@@ -19,8 +19,9 @@ const (
 )
 
 const (
-	UniqueViolation = "unique_violation"
-	NotFound        = "not_found"
+	UniqueViolation     = "unique_violation"
+	ForeignKeyViolation = "foreign_key_violation"
+	NotFound            = "not_found"
 )
 
 type Base struct {

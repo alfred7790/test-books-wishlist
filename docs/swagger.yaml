@@ -40,6 +40,18 @@ definitions:
         example: failure
         type: string
     type: object
+  entity.SuccessResponse:
+    properties:
+      details:
+        example: operation completed
+        type: string
+      message:
+        example: ok
+        type: string
+      success:
+        example: true
+        type: boolean
+    type: object
   entity.User:
     properties:
       password:
@@ -175,6 +187,47 @@ paths:
       summary: returns details about a new user was created
       tags:
       - Users
+  /v1/wishlist/{userid}:
+    post:
+      description: Used to create a wish list
+      parameters:
+      - description: userId
+        in: path
+        name: userid
+        required: true
+        type: string
+      - description: struct to create a new wishlist
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/entity.Book'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+      security:
+      - APIToken: []
+      summary: create or update a wish list for books
+      tags:
+      - Books
 securityDefinitions:
   APIToken:
     in: header

@@ -17,3 +17,11 @@ func Failure(message string, details string, code int, ctx *gin.Context) {
 	}
 	ctx.JSON(code, failure)
 }
+
+// Success is the basic successful HTTP response
+func Success() entity.SuccessResponse {
+	return entity.SuccessResponse{
+		Success: true,
+		Message: "ok",
+	}
+}
