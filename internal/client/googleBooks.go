@@ -72,7 +72,7 @@ func (v *Handle) requestBooks(url string) (*entity.GoogleBooksResponse, error) {
 		return nil, err
 	}
 
-	if len(booksBody.Items) == 0 {
+	if len(booksBody.Kind) == 0 {
 		if err = json.Unmarshal(body, &booksBodyErr); err != nil {
 			fmt.Printf("Error: %v\n", err)
 			return nil, err

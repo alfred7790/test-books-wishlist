@@ -13,7 +13,8 @@ type GoogleBooksError struct {
 }
 
 type GoogleBooksResponse struct {
-	TotalItems int `json:"totalItems"`
+	Kind       string `json:"kind"`
+	TotalItems int    `json:"totalItems"`
 	Items      []struct {
 		Kind       string `json:"kind"`
 		ID         string `json:"id"`
