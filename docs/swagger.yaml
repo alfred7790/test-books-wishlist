@@ -293,6 +293,54 @@ paths:
       summary: create or update a wish list for books
       tags:
       - Books
+  /v1/wishlists/{id}:
+    post:
+      description: adding a book into a wishlist and creating a new book if it doesn't
+        exist
+      parameters:
+      - description: WishListID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: struct to add a book to wishlist
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.Book'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+      security:
+      - APIToken: []
+      summary: adding a book into a wishlist
+      tags:
+      - Books
 securityDefinitions:
   APIToken:
     in: header

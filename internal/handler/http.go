@@ -37,4 +37,5 @@ func AddRoutesV1(r *gin.RouterGroup, app *service.Service) {
 	wishlist := r.Group("wishlists").Use(middleware.IsAuth)
 	wishlist.POST("", api.CreateWishList)
 	wishlist.GET("", api.GetWishLists)
+	wishlist.POST(":id", api.AddBookToWishList)
 }

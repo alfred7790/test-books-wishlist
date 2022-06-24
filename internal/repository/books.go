@@ -14,33 +14,6 @@ func (r *Repo) CreateWishList(wishlist *entity.WishList) (string, error) {
 	return "", nil
 }
 
-/*func (r *Repo) CreateWishList(userID uint, books []*entity.Book) (string, error) {
-	tx := r.SQLDB.Begin()
-
-	defer tx.Rollback()
-
-	for _, v := range books {
-		err := tx.FirstOrCreate(v).Error
-		if err != nil {
-			return fmt.Sprintf("Could not save this book [%s:%s] at the moment", v.ID, v.Title), err
-		}
-
-		err = tx.FirstOrCreate(&entity.ItemWishList{
-			UserID: userID,
-			BookID: v.ID,
-		}).Error
-		if err != nil {
-			return fmt.Sprintf("Could not save this book [%s:%s] at the moment as a wish list", v.ID, v.Title), err
-		}
-	}
-
-	if err := tx.Commit().Error; err != nil {
-		return "Internal BD error, cannot save wishlist at the moment", err
-	}
-
-	return "", nil
-}*/
-
 func (r *Repo) GetWishLists(userID uint) ([]*entity.WishList, string, error) {
 	var lists []*entity.WishList
 	err := r.SQLDB.Model(&entity.WishList{ID: userID}).Preload("Items.Book").Find(&lists).Error
@@ -49,4 +22,29 @@ func (r *Repo) GetWishLists(userID uint) ([]*entity.WishList, string, error) {
 	}
 
 	return lists, "", nil
+}
+
+func (r *Repo) AddItem(wishListID uint, book *entity.Book) (string, error) {
+	tx := r.SQLDB.Begin()
+
+	defer tx.Rollback()
+
+	err := tx.FirstOrCreate(book).Error
+	if err != nil {
+		return fmt.Sprintf("Could not save this book [%s:%s] at the moment", book.ID, book.Title), err
+	}
+
+	err = tx.FirstOrCreate(&entity.ItemWishList{
+		WishListID: wishListID,
+		BookID:     book.ID,
+	}).Error
+	if err != nil {
+		return fmt.Sprintf("Could not save this book [%s:%s] at the moment as a wish list", book.ID, book.Title), err
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return "Internal BD error, cannot save wishlist at the moment", err
+	}
+
+	return "", nil
 }

@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 	"test-books-wishlist/internal/common"
 	"test-books-wishlist/internal/entity"
 	"test-books-wishlist/internal/mapper"
@@ -108,4 +109,44 @@ func (service *API) GetWishLists(c *gin.Context) {
 	response := mapper.WishListMapper(lists)
 
 	c.JSON(http.StatusOK, response)
+}
+
+// AddBookToWishList adding a book into a wishlist
+// @Summary adding a book into a wishlist
+// @Description adding a book into a wishlist and creating a new book if it doesn't exist
+// @Tags Books
+// @Produce json
+// @Param id path int true "WishListID"
+// @Param data body entity.Book true "struct to add a book to wishlist"
+// @Success 200 {object} entity.SuccessResponse
+// @Failure 400 {object} entity.FailureResponse
+// @Failure 401 {object} entity.FailureResponse
+// @Failure 403 {object} entity.FailureResponse
+// @Failure 409 {object} entity.FailureResponse
+// @Failure 500 {object} entity.FailureResponse
+// @Router /v1/wishlists/{id} [POST]
+// @Security APIToken
+func (service *API) AddBookToWishList(c *gin.Context) {
+	id := c.Param("id")
+
+	wishListId, err := strconv.Atoi(id)
+	if err != nil {
+		common.Failure("The wishListID should be a number", err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	var input *entity.Book
+	err = c.BindJSON(&input)
+	if err != nil {
+		common.Failure("Wishlist data incorrect", err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	msg, err := service.App.Repo.AddItem(uint(wishListId), input)
+	if err != nil {
+		common.Failure(msg, err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	c.JSON(http.StatusOK, common.Success())
 }
