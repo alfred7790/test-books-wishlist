@@ -7,7 +7,7 @@ type Book struct {
 	Publisher string `json:"publisher" example:"Clube de Autores" description:"Publisher of the book"`
 }
 
-type WishList struct {
+type ItemWishList struct {
 	UserID uint   `json:"userId" gorm:"primary_key" example:"1" descripcion:"UserID"`
 	BookID string `json:"bookId" gorm:"primary_key" example:"KNYxEAAAQBAJ" descripcion:"BookID"`
 }

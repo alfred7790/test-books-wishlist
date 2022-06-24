@@ -114,7 +114,7 @@ func (b *Base) Migrate() error {
 		return err
 	}
 
-	if err := b.SQLDB.AutoMigrate(&entity.WishList{}).
+	if err := b.SQLDB.AutoMigrate(&entity.ItemWishList{}).
 		AddForeignKey("user_id", "users(id)", "RESTRICT", "RESTRICT").
 		AddForeignKey("book_id", "books(id)", "RESTRICT", "RESTRICT").
 		Error; err != nil {

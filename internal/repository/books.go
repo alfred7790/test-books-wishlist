@@ -16,7 +16,7 @@ func (r *Repo) CreateWishList(userID uint, books []*entity.Book) (string, error)
 			return fmt.Sprintf("Could not save this book [%s:%s] at the moment", v.ID, v.Title), err
 		}
 
-		err = tx.FirstOrCreate(&entity.WishList{
+		err = tx.FirstOrCreate(&entity.ItemWishList{
 			UserID: userID,
 			BookID: v.ID,
 		}).Error
