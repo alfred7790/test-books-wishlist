@@ -31,3 +31,13 @@ func (r *Repo) CreateWishList(userID uint, books []*entity.Book) (string, error)
 
 	return "", nil
 }
+
+func (r *Repo) GetWishList(userID uint) ([]*entity.ItemWishList, string, error) {
+	var items []*entity.ItemWishList
+	err := r.SQLDB.Model(&entity.ItemWishList{UserID: userID}).Preload("Book").Find(&items).Error
+	if err != nil {
+		return items, "Cannot get wishlist at the moment", err
+	}
+
+	return items, "", nil
+}

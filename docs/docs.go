@@ -56,14 +56,20 @@ const docTemplate = `{
                             "$ref": "#/definitions/entity.FailureResponse"
                         }
                     },
-                    "404": {
-                        "description": "Not Found",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/entity.FailureResponse"
                         }
                     },
-                    "500": {
-                        "description": "Internal Server Error",
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/entity.FailureResponse"
                         }
@@ -170,6 +176,65 @@ const docTemplate = `{
             }
         },
         "/v1/wishlist/{userid}": {
+            "get": {
+                "security": [
+                    {
+                        "APIToken": []
+                    }
+                ],
+                "description": "List of books from google saved in datastore",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "returns wishlist of books",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "userId",
+                        "name": "userid",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/entity.ItemWishList"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -214,6 +279,18 @@ const docTemplate = `{
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/entity.FailureResponse"
                         }
@@ -289,6 +366,22 @@ const docTemplate = `{
                 "status": {
                     "type": "string",
                     "example": "failure"
+                }
+            }
+        },
+        "entity.ItemWishList": {
+            "type": "object",
+            "properties": {
+                "book": {
+                    "$ref": "#/definitions/entity.Book"
+                },
+                "bookId": {
+                    "type": "string",
+                    "example": "KNYxEAAAQBAJ"
+                },
+                "userId": {
+                    "type": "integer",
+                    "example": 1
                 }
             }
         },

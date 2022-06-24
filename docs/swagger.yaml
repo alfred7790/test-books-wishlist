@@ -40,6 +40,17 @@ definitions:
         example: failure
         type: string
     type: object
+  entity.ItemWishList:
+    properties:
+      book:
+        $ref: '#/definitions/entity.Book'
+      bookId:
+        example: KNYxEAAAQBAJ
+        type: string
+      userId:
+        example: 1
+        type: integer
+    type: object
   entity.SuccessResponse:
     properties:
       details:
@@ -110,12 +121,16 @@ paths:
           description: Bad Request
           schema:
             $ref: '#/definitions/entity.FailureResponse'
-        "404":
-          description: Not Found
+        "401":
+          description: Unauthorized
           schema:
             $ref: '#/definitions/entity.FailureResponse'
-        "500":
-          description: Internal Server Error
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "404":
+          description: Not Found
           schema:
             $ref: '#/definitions/entity.FailureResponse'
       security:
@@ -188,6 +203,44 @@ paths:
       tags:
       - Users
   /v1/wishlist/{userid}:
+    get:
+      description: List of books from google saved in datastore
+      parameters:
+      - description: userId
+        in: path
+        name: userid
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/entity.ItemWishList'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+      security:
+      - APIToken: []
+      summary: returns wishlist of books
+      tags:
+      - Books
     post:
       description: Used to create a wish list
       parameters:
@@ -213,6 +266,14 @@ paths:
             $ref: '#/definitions/entity.SuccessResponse'
         "400":
           description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "403":
+          description: Forbidden
           schema:
             $ref: '#/definitions/entity.FailureResponse'
         "409":

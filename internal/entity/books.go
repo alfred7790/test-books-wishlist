@@ -10,6 +10,7 @@ type Book struct {
 type ItemWishList struct {
 	UserID uint   `json:"userId" gorm:"primary_key" example:"1" descripcion:"UserID"`
 	BookID string `json:"bookId" gorm:"primary_key" example:"KNYxEAAAQBAJ" descripcion:"BookID"`
+	Book   Book   `json:"book" gorm:"foreigner:BookID"`
 }
 
 type BooksDTO struct {

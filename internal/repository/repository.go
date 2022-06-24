@@ -19,4 +19,5 @@ type UsersRepo interface {
 
 type BooksRepo interface {
 	CreateWishList(userID uint, books []*entity.Book) (string, error)
+	GetWishList(userID uint) ([]*entity.ItemWishList, string, error)
 }
