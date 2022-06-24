@@ -31,7 +31,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "GoogleBooks"
+                    "Google Books"
                 ],
                 "summary": "returns a list of books from google books",
                 "parameters": [
@@ -187,7 +187,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Books"
+                    "Wish List"
                 ],
                 "summary": "returns wishlist of books",
                 "responses": {
@@ -237,7 +237,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Books"
+                    "Wish List"
                 ],
                 "summary": "create or update a wish list for books",
                 "parameters": [
@@ -303,7 +303,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Books"
+                    "Wish List"
                 ],
                 "summary": "returns wishlist of books",
                 "parameters": [
@@ -341,6 +341,62 @@ const docTemplate = `{
                         }
                     }
                 }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "APIToken": []
+                    }
+                ],
+                "description": "all books from a wishlist will be removed",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Wish List"
+                ],
+                "summary": "removing a complete wishlist",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WishListID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
             }
         },
         "/v1/wishlists/{id}/books": {
@@ -355,7 +411,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Books"
+                    "Books of Wish List"
                 ],
                 "summary": "adding a book into a wishlist",
                 "parameters": [
@@ -428,7 +484,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Books"
+                    "Books of Wish List"
                 ],
                 "summary": "removing a book from wishlist",
                 "parameters": [
@@ -468,12 +524,6 @@ const docTemplate = `{
                     },
                     "403": {
                         "description": "Forbidden",
-                        "schema": {
-                            "$ref": "#/definitions/entity.FailureResponse"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict",
                         "schema": {
                             "$ref": "#/definitions/entity.FailureResponse"
                         }

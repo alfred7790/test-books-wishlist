@@ -24,4 +24,6 @@ type BooksRepo interface {
 	RemoveItem(wishListID uint, bookId string) (string, error)
 	GetItem(wishListID uint, bookId string) (*entity.ItemWishList, string, error)
 	GetBooksByWishList(wishlistID uint) (*entity.WishList, string, error)
+	RemoveWishList(wishListID uint) (string, error)
+	WishListExists(wishListID uint) (bool, string, error)
 }

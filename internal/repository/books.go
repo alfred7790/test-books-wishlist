@@ -67,7 +67,7 @@ func (r *Repo) GetItem(wishListID uint, bookId string) (*entity.ItemWishList, st
 		if gorm.IsRecordNotFoundError(err) {
 			return nil, "This book doesn't exist", err
 		}
-		return nil, "Cannot get this book at the moment", err
+		return nil, "Cannot get this item-book at the moment", err
 	}
 
 	return &found, "", nil
@@ -81,4 +81,39 @@ func (r *Repo) GetBooksByWishList(wishlistID uint) (*entity.WishList, string, er
 	}
 
 	return &list, "", nil
+}
+
+func (r *Repo) RemoveWishList(wishListID uint) (string, error) {
+	tx := r.SQLDB.Begin()
+	defer tx.Rollback()
+
+	err := tx.Where("wish_list_id=?", wishListID).Delete(&entity.ItemWishList{}).Error
+	if err != nil {
+		return "Cannot delete this item from wishlist at the moment", err
+	}
+
+	err = tx.Where("id=?", wishListID).Delete(&entity.WishList{}).Error
+	if err != nil {
+		return "Cannot delete this wishlist at the moment", err
+	}
+
+	if err := tx.Commit().Error; err != nil {
+		return "Internal BD error, cannot remove wishlist at the moment", err
+	}
+
+	return "", nil
+}
+
+func (r *Repo) WishListExists(wishListID uint) (bool, string, error) {
+	var found entity.WishList
+	err := r.SQLDB.Model(entity.WishList{}).
+		Where("id=?", wishListID).First(&found).Error
+	if err != nil {
+		if gorm.IsRecordNotFoundError(err) {
+			return false, "This wishlist doesn't exist", err
+		}
+		return false, "Cannot get this wishlist at the moment", err
+	}
+
+	return found.ID != 0, "", nil
 }

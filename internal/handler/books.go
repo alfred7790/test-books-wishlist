@@ -13,7 +13,7 @@ import (
 // LookForBooks get books from google
 // @Summary returns a list of books from google books
 // @Description List of books from google
-// @Tags GoogleBooks
+// @Tags Google Books
 // @Produce json
 // @Param terms query string true "terms (Author, Title, Publisher)"
 // @Success 200 {object} entity.BooksDTO
@@ -40,7 +40,7 @@ func (service *API) LookForBooks(c *gin.Context) {
 // CreateWishList create or update a wish list for books
 // @Summary create or update a wish list for books
 // @Description Used to create a wish list
-// @Tags Books
+// @Tags Wish List
 // @Produce json
 // @Param data body entity.WishList true "struct to create a new wishlist"
 // @Success 201 {object} entity.SuccessResponse
@@ -84,7 +84,7 @@ func (service *API) CreateWishList(c *gin.Context) {
 // GetWishLists get wishlists if exist
 // @Summary returns wishlist of books
 // @Description List of books from google saved in datastore
-// @Tags Books
+// @Tags Wish List
 // @Produce json
 // @Success 200 {object} []entity.WishListDTO
 // @Failure 400 {object} entity.FailureResponse
@@ -114,7 +114,7 @@ func (service *API) GetWishLists(c *gin.Context) {
 // AddBookToWishList adding a book into a wishlist
 // @Summary adding a book into a wishlist
 // @Description adding a book into a wishlist and creating a new book if it doesn't exist
-// @Tags Books
+// @Tags Books of Wish List
 // @Produce json
 // @Param id path int true "WishListID"
 // @Param data body entity.Book true "struct to add a book to wishlist"
@@ -154,7 +154,7 @@ func (service *API) AddBookToWishList(c *gin.Context) {
 // RemoveItemFromWishList removing a book from wishlist
 // @Summary removing a book from wishlist
 // @Description removing a book from wishlist if it exists
-// @Tags Books
+// @Tags Books of Wish List
 // @Produce json
 // @Param id path int true "WishListID"
 // @Param bookid path string true "BookID"
@@ -162,7 +162,6 @@ func (service *API) AddBookToWishList(c *gin.Context) {
 // @Failure 400 {object} entity.FailureResponse
 // @Failure 401 {object} entity.FailureResponse
 // @Failure 403 {object} entity.FailureResponse
-// @Failure 409 {object} entity.FailureResponse
 // @Failure 500 {object} entity.FailureResponse
 // @Router /v1/wishlists/{id}/books/{bookid} [DELETE]
 // @Security APIToken
@@ -195,7 +194,7 @@ func (service *API) RemoveItemFromWishList(c *gin.Context) {
 // GetWishList get wishlist if exist
 // @Summary returns wishlist of books
 // @Description List of books from google saved in datastore
-// @Tags Books
+// @Tags Wish List
 // @Produce json
 // @Param id path int true "WishListID"
 // @Success 200 {object} entity.WishListDTO
@@ -220,4 +219,41 @@ func (service *API) GetWishList(c *gin.Context) {
 	response := mapper.WishListDTOMapper(list)
 
 	c.JSON(http.StatusOK, response)
+}
+
+// RemoveWishList removing a complete wishlist
+// @Summary removing a complete wishlist
+// @Description all books from a wishlist will be removed
+// @Tags Wish List
+// @Produce json
+// @Param id path int true "WishListID"
+// @Success 200 {object} entity.SuccessResponse
+// @Failure 400 {object} entity.FailureResponse
+// @Failure 401 {object} entity.FailureResponse
+// @Failure 403 {object} entity.FailureResponse
+// @Failure 500 {object} entity.FailureResponse
+// @Router /v1/wishlists/{id} [DELETE]
+// @Security APIToken
+func (service *API) RemoveWishList(c *gin.Context) {
+	id := c.Param("id")
+
+	wishListId, err := strconv.Atoi(id)
+	if err != nil {
+		common.Failure("The wishListID should be a number", err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	_, msg, err := service.App.Repo.WishListExists(uint(wishListId))
+	if err != nil {
+		common.Failure(msg, err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	msg, err = service.App.Repo.RemoveWishList(uint(wishListId))
+	if err != nil {
+		common.Failure(msg, err.Error(), http.StatusBadRequest, c)
+		return
+	}
+
+	c.JSON(http.StatusOK, common.Success())
 }

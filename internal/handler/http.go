@@ -38,6 +38,7 @@ func AddRoutesV1(r *gin.RouterGroup, app *service.Service) {
 	wishlist.POST("", api.CreateWishList)
 	wishlist.GET("", api.GetWishLists)
 	wishlist.GET(":id", api.GetWishList)
+	wishlist.DELETE(":id", api.RemoveWishList)
 	wishlist.POST(":id/books", api.AddBookToWishList)
 	wishlist.DELETE(":id/books/:bookid", api.RemoveItemFromWishList)
 }
