@@ -32,11 +32,12 @@ func AddRoutesV1(r *gin.RouterGroup, app *service.Service) {
 	auth.POST("", api.LoginUser)
 
 	books := r.Group("books").Use(middleware.IsAuth)
-	books.GET("", api.LookForBooks)
+	books.GET("search", api.LookForBooks)
 
 	wishlist := r.Group("wishlists").Use(middleware.IsAuth)
 	wishlist.POST("", api.CreateWishList)
 	wishlist.GET("", api.GetWishLists)
+	wishlist.GET(":id", api.GetWishList)
 	wishlist.POST(":id/books", api.AddBookToWishList)
 	wishlist.DELETE(":id/books/:bookid", api.RemoveItemFromWishList)
 }

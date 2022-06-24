@@ -72,3 +72,13 @@ func (r *Repo) GetItem(wishListID uint, bookId string) (*entity.ItemWishList, st
 
 	return &found, "", nil
 }
+
+func (r *Repo) GetBooksByWishList(wishlistID uint) (*entity.WishList, string, error) {
+	var list entity.WishList
+	err := r.SQLDB.Model(&entity.WishList{ID: wishlistID}).Preload("Items.Book").First(&list).Error
+	if err != nil {
+		return &list, "Cannot get wishlist at the moment", err
+	}
+
+	return &list, "", nil
+}

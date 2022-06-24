@@ -13,7 +13,7 @@ import (
 // LookForBooks get books from google
 // @Summary returns a list of books from google books
 // @Description List of books from google
-// @Tags Books
+// @Tags GoogleBooks
 // @Produce json
 // @Param terms query string true "terms (Author, Title, Publisher)"
 // @Success 200 {object} entity.BooksDTO
@@ -21,7 +21,7 @@ import (
 // @Failure 401 {object} entity.FailureResponse
 // @Failure 403 {object} entity.FailureResponse
 // @Failure 404 {object} entity.FailureResponse
-// @Router /v1/books [GET]
+// @Router /v1/books/search [GET]
 // @Security APIToken
 func (service *API) LookForBooks(c *gin.Context) {
 	terms := c.DefaultQuery("terms", "")
@@ -106,7 +106,7 @@ func (service *API) GetWishLists(c *gin.Context) {
 		return
 	}
 
-	response := mapper.WishListMapper(lists)
+	response := mapper.WishListsDTOMapper(lists)
 
 	c.JSON(http.StatusOK, response)
 }
@@ -190,4 +190,34 @@ func (service *API) RemoveItemFromWishList(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, common.Success())
+}
+
+// GetWishList get wishlist if exist
+// @Summary returns wishlist of books
+// @Description List of books from google saved in datastore
+// @Tags Books
+// @Produce json
+// @Param id path int true "WishListID"
+// @Success 200 {object} entity.WishListDTO
+// @Failure 401 {object} entity.FailureResponse
+// @Failure 403 {object} entity.FailureResponse
+// @Failure 500 {object} entity.FailureResponse
+// @Router /v1/wishlists/{id} [GET]
+// @Security APIToken
+func (service *API) GetWishList(c *gin.Context) {
+	userId, err := common.GetUserIdFromToken(c.Request)
+	if err != nil {
+		common.Failure("cannot get userId from token", err.Error(), http.StatusInternalServerError, c)
+		return
+	}
+
+	list, msg, err := service.App.Repo.GetBooksByWishList(userId)
+	if err != nil {
+		common.Failure(msg, err.Error(), http.StatusInternalServerError, c)
+		return
+	}
+
+	response := mapper.WishListDTOMapper(list)
+
+	c.JSON(http.StatusOK, response)
 }

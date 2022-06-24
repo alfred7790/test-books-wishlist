@@ -19,7 +19,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/books": {
+        "/v1/books/search": {
             "get": {
                 "security": [
                     {
@@ -31,7 +31,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Books"
+                    "GoogleBooks"
                 ],
                 "summary": "returns a list of books from google books",
                 "parameters": [
@@ -84,7 +84,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Auth"
+                    "Users"
                 ],
                 "summary": "returns a new token",
                 "parameters": [
@@ -278,6 +278,58 @@ const docTemplate = `{
                     },
                     "409": {
                         "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/wishlists/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "APIToken": []
+                    }
+                ],
+                "description": "List of books from google saved in datastore",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "returns wishlist of books",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "WishListID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.WishListDTO"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
                         "schema": {
                             "$ref": "#/definitions/entity.FailureResponse"
                         }

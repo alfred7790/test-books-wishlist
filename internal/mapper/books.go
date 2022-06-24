@@ -24,19 +24,23 @@ func GoogleBookToBooksDTO(b *entity.GoogleBooksResponse) *entity.BooksDTO {
 	return &respose
 }
 
-func WishListMapper(lists []*entity.WishList) []*entity.WishListDTO {
+func WishListsDTOMapper(lists []*entity.WishList) []*entity.WishListDTO {
 	response := make([]*entity.WishListDTO, 0)
 	for _, v := range lists {
-		response = append(response, &entity.WishListDTO{
-			ID:        v.ID,
-			UserID:    v.UserID,
-			Name:      v.Name,
-			CreatedAt: v.CreatedAt,
-			Items:     BooksMapper(v.Items),
-		})
+		response = append(response, WishListDTOMapper(v))
 	}
 
 	return response
+}
+
+func WishListDTOMapper(list *entity.WishList) *entity.WishListDTO {
+	return &entity.WishListDTO{
+		ID:        list.ID,
+		UserID:    list.UserID,
+		Name:      list.Name,
+		CreatedAt: list.CreatedAt,
+		Items:     BooksMapper(list.Items),
+	}
 }
 
 func BooksMapper(books []*entity.ItemWishList) []*entity.Book {

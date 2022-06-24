@@ -50,7 +50,7 @@ func (service *API) CreateUser(c *gin.Context) {
 // LoginUser login
 // @Summary returns a new token
 // @Description Used login and get a new token
-// @Tags Auth
+// @Tags Users
 // @Produce json
 // @Param data body entity.User true "username and password"
 // @Success 200 {object} entity.UserTokenDTO
