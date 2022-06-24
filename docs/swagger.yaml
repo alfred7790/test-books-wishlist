@@ -72,11 +72,11 @@ definitions:
     type: object
   entity.UserTokenDTO:
     properties:
-      token:
-        example: eyJhbGciOiJ...
-        type: string
-      tokenSwagger:
+      accessBearerToken:
         example: Bearer eyJhbGciOiJ...
+        type: string
+      accessToken:
+        example: eyJhbGciOiJ...
         type: string
       userID:
         example: 1

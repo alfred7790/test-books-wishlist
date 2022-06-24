@@ -649,13 +649,13 @@ const docTemplate = `{
         "entity.UserTokenDTO": {
             "type": "object",
             "properties": {
-                "token": {
-                    "type": "string",
-                    "example": "eyJhbGciOiJ..."
-                },
-                "tokenSwagger": {
+                "accessBearerToken": {
                     "type": "string",
                     "example": "Bearer eyJhbGciOiJ..."
+                },
+                "accessToken": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJ..."
                 },
                 "userID": {
                     "type": "integer",
