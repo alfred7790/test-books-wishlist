@@ -3,7 +3,10 @@
     "info": {
         "description": "Google Books testcase API",
         "title": "Google Books API - TESTCASE",
-        "contact": {},
+        "contact": {
+            "name": "API Support",
+            "email": "alfred.7790@gmail.com"
+        },
         "version": "1.0"
     },
     "basePath": "/",
@@ -167,6 +170,13 @@
                     "example": "Pantufla89"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "APIToken": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

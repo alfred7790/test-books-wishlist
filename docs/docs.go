@@ -10,7 +10,10 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "API Support",
+            "email": "alfred.7790@gmail.com"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -175,6 +178,13 @@ const docTemplate = `{
                     "example": "Pantufla89"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "APIToken": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }`

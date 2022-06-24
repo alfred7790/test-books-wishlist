@@ -43,7 +43,9 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: alfred.7790@gmail.com
+    name: API Support
   description: Google Books testcase API
   title: Google Books API - TESTCASE
   version: "1.0"
@@ -112,4 +114,9 @@ paths:
       summary: returns details about a new user was created
       tags:
       - Users
+securityDefinitions:
+  APIToken:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

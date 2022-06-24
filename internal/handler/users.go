@@ -78,7 +78,7 @@ func (service *API) LoginUser(c *gin.Context) {
 		return
 	}
 
-	token, err := GetToken(user.Id, user.UserName)
+	token, err := common.GetToken(user.Id, user.UserName)
 	if err != nil {
 		common.Failure("Error trying to build new token", err.Error(), http.StatusInternalServerError, c)
 		return

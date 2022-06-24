@@ -10,8 +10,13 @@ import (
 
 // @title Google Books API - TESTCASE
 // @version 1.0
+// @contact.name   API Support
+// @contact.email  alfred.7790@gmail.com
 // @description Google Books testcase API
 // @BasePath /
+// @SecurityDefinitions.apikey APIToken
+// @name Authorization
+// @in header
 func main() {
 	app := service.NewService()
 	app.Repo = repository.NewPostgresRepository()
