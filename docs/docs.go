@@ -435,6 +435,10 @@ const docTemplate = `{
                     "type": "string",
                     "example": "eyJhbGciOiJ..."
                 },
+                "tokenSwagger": {
+                    "type": "string",
+                    "example": "Bearer eyJhbGciOiJ..."
+                },
                 "userID": {
                     "type": "integer",
                     "example": 1

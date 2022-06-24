@@ -86,6 +86,9 @@ definitions:
       token:
         example: eyJhbGciOiJ...
         type: string
+      tokenSwagger:
+        example: Bearer eyJhbGciOiJ...
+        type: string
       userID:
         example: 1
         type: integer
