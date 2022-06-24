@@ -175,7 +175,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/wishlist/{userid}": {
+        "/v1/wishlists": {
             "get": {
                 "security": [
                     {
@@ -190,22 +190,13 @@ const docTemplate = `{
                     "Books"
                 ],
                 "summary": "returns wishlist of books",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "userId",
-                        "name": "userid",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/entity.ItemWishList"
+                                "$ref": "#/definitions/entity.WishListDTO"
                             }
                         }
                     },
@@ -251,22 +242,12 @@ const docTemplate = `{
                 "summary": "create or update a wish list for books",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "userId",
-                        "name": "userid",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
                         "description": "struct to create a new wishlist",
                         "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/entity.Book"
-                            }
+                            "$ref": "#/definitions/entity.WishList"
                         }
                     }
                 ],
@@ -369,22 +350,6 @@ const docTemplate = `{
                 }
             }
         },
-        "entity.ItemWishList": {
-            "type": "object",
-            "properties": {
-                "book": {
-                    "$ref": "#/definitions/entity.Book"
-                },
-                "bookId": {
-                    "type": "string",
-                    "example": "KNYxEAAAQBAJ"
-                },
-                "userId": {
-                    "type": "integer",
-                    "example": 1
-                }
-            }
-        },
         "entity.SuccessResponse": {
             "type": "object",
             "properties": {
@@ -446,6 +411,42 @@ const docTemplate = `{
                 "username": {
                     "type": "string",
                     "example": "Pantufla89"
+                }
+            }
+        },
+        "entity.WishList": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "MyFirstWishList"
+                }
+            }
+        },
+        "entity.WishListDTO": {
+            "type": "object",
+            "properties": {
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Book"
+                    }
+                },
+                "createdAt": {
+                    "type": "string",
+                    "example": "2022-06-24T19:38:46.814728Z"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "name": {
+                    "type": "string",
+                    "example": "MyFirstWishList"
+                },
+                "userId": {
+                    "type": "integer",
+                    "example": 1
                 }
             }
         }

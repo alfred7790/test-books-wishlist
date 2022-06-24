@@ -5,7 +5,16 @@ import (
 	"test-books-wishlist/internal/entity"
 )
 
-func (r *Repo) CreateWishList(userID uint, books []*entity.Book) (string, error) {
+func (r *Repo) CreateWishList(wishlist *entity.WishList) (string, error) {
+	err := r.SQLDB.Create(wishlist).Scan(wishlist).Error
+	if err != nil {
+		return fmt.Sprintf("Could not save this wishlist [%s] at the moment", wishlist.Name), err
+	}
+
+	return "", nil
+}
+
+/*func (r *Repo) CreateWishList(userID uint, books []*entity.Book) (string, error) {
 	tx := r.SQLDB.Begin()
 
 	defer tx.Rollback()
@@ -30,14 +39,14 @@ func (r *Repo) CreateWishList(userID uint, books []*entity.Book) (string, error)
 	}
 
 	return "", nil
-}
+}*/
 
-func (r *Repo) GetWishList(userID uint) ([]*entity.ItemWishList, string, error) {
-	var items []*entity.ItemWishList
-	err := r.SQLDB.Model(&entity.ItemWishList{UserID: userID}).Preload("Book").Find(&items).Error
+func (r *Repo) GetWishLists(userID uint) ([]*entity.WishList, string, error) {
+	var lists []*entity.WishList
+	err := r.SQLDB.Model(&entity.WishList{ID: userID}).Preload("Items.Book").Find(&lists).Error
 	if err != nil {
-		return items, "Cannot get wishlist at the moment", err
+		return lists, "Cannot get wishlist at the moment", err
 	}
 
-	return items, "", nil
+	return lists, "", nil
 }

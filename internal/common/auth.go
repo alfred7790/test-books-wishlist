@@ -71,3 +71,30 @@ func TokenValidation(r *http.Request) (string, int, error) {
 
 	return "", http.StatusOK, nil
 }
+
+func GetUserIdFromToken(r *http.Request) (uint, error) {
+	usuario, err := decodeToken(r)
+	if err != nil {
+		return 0, err
+	}
+	return usuario.UserID, nil
+}
+
+func decodeToken(r *http.Request) (*entity.UserToken, error) {
+	header := r.Header.Get("Authorization")
+	if header == "" {
+		return nil, errors.New("authorization header is empty")
+	}
+
+	if len(strings.Split(header, " ")) <= 0 {
+		return nil, errors.New("authorization header is incomplete")
+	}
+
+	token := strings.Split(header, " ")[1]
+	var usuario entity.UserToken
+	_, err := jwt.ParseWithClaims(token, &usuario, func(token *jwt.Token) (interface{}, error) { return SecretKey, nil })
+	if err != nil {
+		return nil, err
+	}
+	return &usuario, nil
+}

@@ -5,6 +5,8 @@ import (
 	"test-books-wishlist/internal/common"
 )
 
+const QueryUserID = "userID"
+
 func IsAuth(ctx *gin.Context) {
 	msg, code, err := common.TokenValidation(ctx.Request)
 	if err != nil {
@@ -12,6 +14,5 @@ func IsAuth(ctx *gin.Context) {
 		ctx.Abort()
 		return
 	}
-
 	ctx.Next()
 }
