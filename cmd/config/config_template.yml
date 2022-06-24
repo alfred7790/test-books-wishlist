@@ -1,0 +1,28 @@
+# Use this template to create config.yml file
+# at the root of the project at the same level as main.go
+
+# All of these fields have default values,
+# only for making this easier to you
+# But you can modify all of these fields if you need to do it
+
+# Aplication service
+port: <port>  # default: 8080
+
+# Credentials of the db
+dbname: <dbname> # default: test
+dbip: <dbip> # default: localhost
+dbport: <dbport> # default: 5435
+dbuser: <dbuser> # default: tester
+dbpass: mySuperPass # default: mySuperPass
+# Number of times that we are going to try connecting to the db
+dbretrycount: 5 # default: 1
+
+
+# Config for Google Books API
+# You can use my APIKey, it's a free one
+# APIKey: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
+# I'll delete this access after you review this project
+googlehost: <googlehost> # Default: https://www.googleapis.com/books/v1/volumes
+googleapikey: <googleapikey> # default: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
+
+debugmode: <debugmode> # default: true
