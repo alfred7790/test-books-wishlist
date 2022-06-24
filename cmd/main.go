@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"test-books-wishlist/cmd/config"
+	"test-books-wishlist/internal/client"
 	"test-books-wishlist/internal/handler"
 	"test-books-wishlist/internal/repository"
 	"test-books-wishlist/internal/service"
@@ -20,6 +21,11 @@ import (
 func main() {
 	app := service.NewService()
 	app.Repo = repository.NewPostgresRepository()
+	app.GoogleBooksAPI = client.NewHandle()
+	app.GoogleBooksAPI.SetHostAndKey(
+		config.Config.GoogleHost,
+		config.Config.GoogleAPIKey)
+	client.SetAllowInsecureCert(config.Config.AllowInsecureCert)
 
 	go initDB(app.Repo)
 

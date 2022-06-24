@@ -11,3 +11,9 @@ type WishList struct {
 	UserID uint   `json:"userId" gorm:"primary_key" example:"1" descripcion:"UserID"`
 	BookID string `json:"bookId" gorm:"primary_key" example:"KNYxEAAAQBAJ" descripcion:"BookID"`
 }
+
+type BooksDTO struct {
+	Results int     `json:"results" example:"999" descripcion:"Total of results"`
+	Items   int     `json:"items" example:"20" descripcion:"items in this page"`
+	Books   []*Book `json:"books"`
+}

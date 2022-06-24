@@ -1,5 +1,33 @@
 basePath: /
 definitions:
+  entity.Book:
+    properties:
+      authors:
+        example: Miranda De Moura
+        type: string
+      id:
+        example: KNYxEAAAQBAJ
+        type: string
+      publisher:
+        example: Clube de Autores
+        type: string
+      title:
+        example: Viagens Na Madrugada
+        type: string
+    type: object
+  entity.BooksDTO:
+    properties:
+      books:
+        items:
+          $ref: '#/definitions/entity.Book'
+        type: array
+      items:
+        example: 20
+        type: integer
+      results:
+        example: 999
+        type: integer
+    type: object
   entity.FailureResponse:
     properties:
       details:
@@ -50,6 +78,39 @@ info:
   title: Google Books API - TESTCASE
   version: "1.0"
 paths:
+  /v1/books:
+    get:
+      description: List of books from google
+      parameters:
+      - description: terms (Author, Title, Publisher)
+        in: query
+        name: terms
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.BooksDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+      security:
+      - APIToken: []
+      summary: returns a list of books from google books
+      tags:
+      - Books
   /v1/login:
     post:
       description: Used login and get a new token

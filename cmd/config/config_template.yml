@@ -22,11 +22,14 @@ dbretrycount: 5 # default: 1
 # You can use my APIKey, it's a free one
 # APIKey: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
 # I'll delete this access after you review this project
-googlehost: <googlehost> # Default: https://www.googleapis.com/books/v1/volumes
+googlehost: <googlehost> # Default: https://www.googleapis.com/books/v1
 googleapikey: <googleapikey> # default: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
 
 # Secret key to build token with jwt
 secretkey: <secretkey> # Default: myhash123
+
+# Auxiliaries for Http Request
+allowinsecurecert: <allowinsecurecert> # default: true
 
 debugmode: <debugmode> # default: true
 

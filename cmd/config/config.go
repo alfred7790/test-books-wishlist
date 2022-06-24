@@ -19,11 +19,13 @@ type Settings struct {
 	DBRetryCount int    `default:"1"`
 
 	// Google Books API environments
-	GoogleHost   string `default:"https://www.googleapis.com/books/v1/volumes"`
+	GoogleHost   string `default:"https://www.googleapis.com/books/v1"`
 	GoogleAPIKey string `default:"AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ"`
 
 	// KEY for auth
 	SecretKey string `default:"myhash123"`
+
+	AllowInsecureCert bool `default:"true"`
 
 	DebugMode bool `default:"true"`
 }

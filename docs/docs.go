@@ -19,6 +19,58 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/books": {
+            "get": {
+                "security": [
+                    {
+                        "APIToken": []
+                    }
+                ],
+                "description": "List of books from google",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Books"
+                ],
+                "summary": "returns a list of books from google books",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "terms (Author, Title, Publisher)",
+                        "name": "terms",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.BooksDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/login": {
             "post": {
                 "description": "Used login and get a new token",
@@ -119,6 +171,46 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "entity.Book": {
+            "type": "object",
+            "properties": {
+                "authors": {
+                    "type": "string",
+                    "example": "Miranda De Moura"
+                },
+                "id": {
+                    "type": "string",
+                    "example": "KNYxEAAAQBAJ"
+                },
+                "publisher": {
+                    "type": "string",
+                    "example": "Clube de Autores"
+                },
+                "title": {
+                    "type": "string",
+                    "example": "Viagens Na Madrugada"
+                }
+            }
+        },
+        "entity.BooksDTO": {
+            "type": "object",
+            "properties": {
+                "books": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/entity.Book"
+                    }
+                },
+                "items": {
+                    "type": "integer",
+                    "example": 20
+                },
+                "results": {
+                    "type": "integer",
+                    "example": 999
+                }
+            }
+        },
         "entity.FailureResponse": {
             "type": "object",
             "properties": {

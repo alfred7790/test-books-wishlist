@@ -6,6 +6,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	_ "test-books-wishlist/docs"
+	"test-books-wishlist/internal/middleware"
 	"test-books-wishlist/internal/service"
 )
 
@@ -29,4 +30,7 @@ func AddRoutesV1(r *gin.RouterGroup, app *service.Service) {
 
 	auth := r.Group("login")
 	auth.POST("", api.LoginUser)
+
+	books := r.Group("books").Use(middleware.IsAuth)
+	books.GET("", api.LookForBooks)
 }
