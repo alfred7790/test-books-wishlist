@@ -26,4 +26,7 @@ func AddRoutesV1(r *gin.RouterGroup, app *service.Service) {
 
 	users := r.Group("users")
 	users.POST("", api.CreateUser)
+
+	auth := r.Group("login")
+	auth.POST("", api.LoginUser)
 }

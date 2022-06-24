@@ -20,6 +20,7 @@ const (
 
 const (
 	UniqueViolation = "unique_violation"
+	NotFound        = "not_found"
 )
 
 type Base struct {
@@ -127,4 +128,8 @@ func ValidatePSQLError(err error, keyError string) bool {
 	}
 
 	return false
+}
+
+func IsRecordNotFound(err error) bool {
+	return err.Error() == NotFound
 }

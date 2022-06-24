@@ -25,4 +25,8 @@ dbretrycount: 5 # default: 1
 googlehost: <googlehost> # Default: https://www.googleapis.com/books/v1/volumes
 googleapikey: <googleapikey> # default: AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ
 
+# Secret key to build token with jwt
+secretkey: <secretkey> # Default: myhash123
+
 debugmode: <debugmode> # default: true
+

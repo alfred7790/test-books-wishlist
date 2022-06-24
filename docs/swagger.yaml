@@ -3,10 +3,10 @@ definitions:
   entity.FailureResponse:
     properties:
       details:
-        example: Error message for developers
+        example: Message error for developers
         type: string
       message:
-        example: Error message for users
+        example: Message error for users
         type: string
       status:
         example: failure
@@ -30,12 +30,56 @@ definitions:
         example: Pantufla89
         type: string
     type: object
+  entity.UserTokenDTO:
+    properties:
+      token:
+        example: eyJhbGciOiJ...
+        type: string
+      userID:
+        example: 1
+        type: integer
+      username:
+        example: Pantufla89
+        type: string
+    type: object
 info:
   contact: {}
   description: Google Books testcase API
   title: Google Books API - TESTCASE
   version: "1.0"
 paths:
+  /v1/login:
+    post:
+      description: Used login and get a new token
+      parameters:
+      - description: username and password
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/entity.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/entity.UserTokenDTO'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "409":
+          description: Conflict
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/entity.FailureResponse'
+      summary: returns a new token
+      tags:
+      - Auth
   /v1/users:
     post:
       description: Used to create a new user

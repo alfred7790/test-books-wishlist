@@ -13,4 +13,5 @@ type Repository interface {
 
 type UsersRepo interface {
 	CreateUser(user *entity.User) error
+	UserAuth(username, password string) (*entity.User, error)
 }

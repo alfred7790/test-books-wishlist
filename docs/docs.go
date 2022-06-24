@@ -16,6 +16,55 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/v1/login": {
+            "post": {
+                "description": "Used login and get a new token",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "returns a new token",
+                "parameters": [
+                    {
+                        "description": "username and password",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/entity.UserTokenDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/entity.FailureResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/users": {
             "post": {
                 "description": "Used to create a new user",
@@ -72,11 +121,11 @@ const docTemplate = `{
             "properties": {
                 "details": {
                     "type": "string",
-                    "example": "Error message for developers"
+                    "example": "Message error for developers"
                 },
                 "message": {
                     "type": "string",
-                    "example": "Error message for users"
+                    "example": "Message error for users"
                 },
                 "status": {
                     "type": "string",
@@ -101,6 +150,23 @@ const docTemplate = `{
             "type": "object",
             "properties": {
                 "id": {
+                    "type": "integer",
+                    "example": 1
+                },
+                "username": {
+                    "type": "string",
+                    "example": "Pantufla89"
+                }
+            }
+        },
+        "entity.UserTokenDTO": {
+            "type": "object",
+            "properties": {
+                "token": {
+                    "type": "string",
+                    "example": "eyJhbGciOiJ..."
+                },
+                "userID": {
                     "type": "integer",
                     "example": 1
                 },

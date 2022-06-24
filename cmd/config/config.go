@@ -22,6 +22,9 @@ type Settings struct {
 	GoogleHost   string `default:"https://www.googleapis.com/books/v1/volumes"`
 	GoogleAPIKey string `default:"AIzaSyBoiYIRcvmA4sgpkuQwVqYHdeSxnDYgfpQ"`
 
+	// KEY for auth
+	SecretKey string `default:"myhash123"`
+
 	DebugMode bool `default:"true"`
 }
 
