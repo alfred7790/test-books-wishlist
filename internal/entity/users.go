@@ -20,7 +20,8 @@ type UserToken struct {
 }
 
 type UserTokenDTO struct {
-	UserID   uint   `json:"userID" example:"1" description:"userID"`
-	Username string `json:"username" example:"Pantufla89" description:"Username"`
-	Token    string `json:"token" example:"eyJhbGciOiJ..." description:"token for API"`
+	UserID       uint   `json:"userID" example:"1" description:"userID"`
+	Username     string `json:"username" example:"Pantufla89" description:"Username"`
+	Token        string `json:"token" example:"eyJhbGciOiJ..." description:"token for API"`
+	TokenSwagger string `json:"tokenSwagger" example:"Bearer eyJhbGciOiJ..." description:"token for API using Swagger (helper)"`
 }

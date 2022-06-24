@@ -85,9 +85,10 @@ func (service *API) LoginUser(c *gin.Context) {
 	}
 
 	data := entity.UserTokenDTO{
-		UserID:   user.Id,
-		Username: user.UserName,
-		Token:    token,
+		UserID:       user.Id,
+		Username:     user.UserName,
+		Token:        token,
+		TokenSwagger: fmt.Sprintf("Bearer %s", token),
 	}
 
 	c.JSON(http.StatusOK, data)
