@@ -31,7 +31,6 @@ func main() {
 	go initDB(app.Repo)
 
 	r := handler.InitRouter(app)
-
 	err := r.Run(fmt.Sprintf(":%s", config.Config.Port))
 	if err != nil {
 		fmt.Println(err.Error())
