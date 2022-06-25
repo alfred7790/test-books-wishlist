@@ -12,7 +12,7 @@ import (
 
 const (
 	booksURL   = "%s/volumes?key=%s&q=%s&maxResults=%v"
-	maxResults = 20
+	maxResults = 20 // max result for page
 )
 
 // Service interface contains main functions
@@ -33,16 +33,19 @@ func NewHandle() *Handle {
 	return &Handle{}
 }
 
+// SetHostAndKey initialization of ost and access key to google books API
 func (v *Handle) SetHostAndKey(host, accessKey string) {
 	v.CurrencyHost = host
 	v.AccessKey = accessKey
 }
 
+// SearchBooks building request
 func (v *Handle) SearchBooks(terms, apiKey string) (*entity.GoogleBooksResponse, error) {
 	url := fmt.Sprintf(booksURL, v.CurrencyHost, apiKey, terms, maxResults)
 	return v.requestBooks(url)
 }
 
+// requestBooks request for books information
 func (v *Handle) requestBooks(url string) (*entity.GoogleBooksResponse, error) {
 	options := &Options{
 		Method: http.MethodGet,

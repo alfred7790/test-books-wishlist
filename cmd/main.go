@@ -27,6 +27,7 @@ func main() {
 		config.Config.GoogleAPIKey)
 	client.SetAllowInsecureCert(config.Config.AllowInsecureCert)
 
+	// We will try to connect with db as soon as possible until we consume all tries
 	go initDB(app.Repo)
 
 	r := handler.InitRouter(app)
@@ -37,6 +38,7 @@ func main() {
 	}
 }
 
+// initDB initialization of connexion with datastore
 func initDB(repo repository.Repository) error {
 	c := config.Config
 	if err := repo.Init(c.DBIP, c.DBPort, c.DBUser, c.DBPass, c.DBName, c.DBRetryCount); err != nil {

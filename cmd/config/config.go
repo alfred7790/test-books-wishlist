@@ -19,8 +19,8 @@ type Settings struct {
 	DBRetryCount int    `default:"1"`
 
 	// Google Books API environments
-	// GoogleAPIKey should be injected from environment variables, But as you requested, It can be taken from a query param
-	GoogleHost   string `default:"https://www.googleapis.com/books/v1"`
+	GoogleHost string `default:"https://www.googleapis.com/books/v1"`
+	// GoogleAPIKey should be injected from environment variables, But as you requested it, It can be taken from a query param
 	GoogleAPIKey string `default:"<YourGoogleApiKey>"`
 
 	// KEY for auth
@@ -33,6 +33,7 @@ type Settings struct {
 
 var Config = Settings{}
 
+// init initialization of configuration file
 func init() {
 	if err := configor.Load(&Config, "config.yml"); err != nil {
 		fmt.Println("Error trying to load configuration", err.Error())

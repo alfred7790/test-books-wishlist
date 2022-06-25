@@ -9,6 +9,7 @@ const (
 	failMessage = "failure"
 )
 
+// Failure is the basic failure HTTP response
 func Failure(message string, details string, code int, ctx *gin.Context) {
 	failure := entity.FailureResponse{
 		Message: message,

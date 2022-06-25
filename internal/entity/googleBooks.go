@@ -1,5 +1,6 @@
 package entity
 
+// GoogleBooksError structure to mapper from google books API
 type GoogleBooksError struct {
 	Error struct {
 		Code    int    `json:"code"`
@@ -12,6 +13,7 @@ type GoogleBooksError struct {
 	} `json:"error"`
 }
 
+// GoogleBooksResponse structure to mapper from google books API
 type GoogleBooksResponse struct {
 	Kind       string `json:"kind"`
 	TotalItems int    `json:"totalItems"`

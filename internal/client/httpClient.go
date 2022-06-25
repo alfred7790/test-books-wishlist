@@ -47,6 +47,7 @@ type HTTPClient interface {
 	Get(url string) (*http.Response, error)
 }
 
+// RequestJSON uilding request JSON
 func RequestJSON(opts *Options) (*http.Response, error) {
 	if opts.Headers == nil {
 		opts.Headers = make(map[string]string)
@@ -55,6 +56,7 @@ func RequestJSON(opts *Options) (*http.Response, error) {
 	return Request(opts)
 }
 
+// Request client
 func Request(o *Options) (*http.Response, error) {
 	req, err := http.NewRequest(o.Method, o.URL, bytes.NewBuffer(o.Body))
 	if err != nil {

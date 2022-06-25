@@ -17,6 +17,7 @@ func init() {
 	SecretKey = []byte(config.Config.SecretKey)
 }
 
+// GetToken building token
 func GetToken(userID uint, username string) (string, error) {
 	data := jwt.New(jwt.SigningMethodHS256)
 	claims := entity.UserToken{}
@@ -36,6 +37,7 @@ func GetToken(userID uint, username string) (string, error) {
 	return token, nil
 }
 
+// TokenValidation middleware to validate token
 func TokenValidation(r *http.Request) (string, int, error) {
 	header := r.Header.Get("Authorization")
 	if header == "" {
@@ -72,6 +74,7 @@ func TokenValidation(r *http.Request) (string, int, error) {
 	return "", http.StatusOK, nil
 }
 
+// GetUserIdFromToken get userID from token
 func GetUserIdFromToken(r *http.Request) (uint, error) {
 	usuario, err := decodeToken(r)
 	if err != nil {
@@ -80,6 +83,7 @@ func GetUserIdFromToken(r *http.Request) (uint, error) {
 	return usuario.UserID, nil
 }
 
+// decodeToken return token de-codification
 func decodeToken(r *http.Request) (*entity.UserToken, error) {
 	header := r.Header.Get("Authorization")
 	if header == "" {
