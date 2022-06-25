@@ -132,3 +132,10 @@ $ go mod tidy && go get -u github.com/swaggo/swag/cmd/swag
 ```
 
 # Comments:
+- The Database is not persistent.
+- I didn't cover the whole project with tests.
+- I include default values in the config structure to run the service more easily,
+  but it is not good practice including database credentials in public files,
+  these values should be placed in an .env file.
+- I didn't include comments about functions because I didn't have enough time.
+- I decided to use GORM because the migrations of structures within the database are much easier to do.
