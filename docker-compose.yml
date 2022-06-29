@@ -2,13 +2,24 @@
 version: '3.8'
 services:
 
-  booksdb:
+  servicedb:
     restart: always
     image: postgres:13
-    container_name: booksdb
+    container_name: servicedb
     ports:
       - 5435:5432
     environment:
       POSTGRES_USER: tester
       POSTGRES_PASSWORD: mySuperPass
       POSTGRES_DB: test
+
+  service:
+    image: googlebooksimg
+    container_name: service
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+    restart: always
+    ports:
+      - 1010:8080

@@ -12,8 +12,8 @@ type Settings struct {
 
 	// DB environments
 	DBName       string `default:"test"`
-	DBIP         string `default:"localhost"`
-	DBPort       string `default:"5435"`
+	DBIP         string `default:"servicedb"`
+	DBPort       string `default:"5432"`
 	DBUser       string `default:"tester"`
 	DBPass       string `default:"mySuperPass"`
 	DBRetryCount int    `default:"1"`

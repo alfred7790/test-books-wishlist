@@ -10,7 +10,7 @@ port: <port>  # default: 8080
 
 # Credentials of the db
 dbname: <dbname> # default: test
-dbip: <dbip> # default: localhost
+dbip: <dbip> # default: servicedb
 dbport: <dbport> # default: 5435
 dbuser: <dbuser> # default: tester
 dbpass: mySuperPass # default: mySuperPass

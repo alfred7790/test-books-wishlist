@@ -11,26 +11,18 @@ dep:
 
 .PHONY: db
 db:
-	@echo "Running postgresdb"
-	docker-compose up -d booksdb
+	@echo "Running servicedb"
+	docker-compose up -d servicedb
 	docker-compose ps
 	# need to make sure our db is up and available before we run tests.
 	# 2 seconds
 	sleep 2
 
-.PHONY: db-down
-db-down:
-	docker-compose down
-
 .PHONY: build
-build: generate
-	@echo "Building binary"
-	go build -o ./build/bin/main cmd/main.go
+build:
+	@echo "Building image"
+	docker build . -t googlebooksimg -f ./ias/docker/Dockerfile
 
-.PHONY: generate
-generate:
-	@echo "Generating swagger docs"
-	$(GOPATH)/bin/swag init -g cmd/main.go
 
 .PHONY: test
 test:
@@ -39,6 +31,10 @@ test:
 
 .PHONY: deploy
 deploy:
-	@echo "Deploying main"
-	./build/bin/main
+	@echo "Deploying google-books"
+	docker-compose up -d service
+	docker-compose ps
 
+.PHONY: down
+down:
+	docker-compose down

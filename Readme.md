@@ -40,43 +40,12 @@ $ make
 6. If everything is ok, you should see something like this:
 ```shell
 ...
-[GIN-debug] Listening and serving HTTP on :8080
-connected to 'test' database
+  Name                 Command              State                    Ports                  
+--------------------------------------------------------------------------------------------
+service     ./main                          Up      0.0.0.0:1010->8080/tcp,:::1010->8080/tcp
+servicedb   docker-entrypoint.sh postgres   Up      0.0.0.0:5435->5432/tcp,:::5435->5432/tcp
 ```
-7. Go to [swagger docs](http:localhost:8080/v1/swagger/index.html) and have fun.
-
-# Quick start - Running Binary
-1. Clone the repo:
-```shell
-$ git clone git@github.com:alfred7790/test-books-wishlist.git
-```
-2. Open the project
-```shell
-$ cd test-books-wishlist
-```
-3. Running the DB service:
-```shell
-$ docker-compose up -d booksdb
-```
-4. Get dependencies:
-```shell
-$ go mod tidy && go get -u github.com/swaggo/swag/cmd/swag
-```
-5. Build the service:
-```shell
-$ go build -o ./build/bin/main cmd/main.go
-```
-6. Running the service:
-```shell
-$ ./build/bin/main
-```
-7. If everything is ok, you should see something like this:
-```shell
-...
-[GIN-debug] Listening and serving HTTP on :8080
-connected to 'test' database
-```
-8. Go to [swagger docs](http:localhost:8080/v1/swagger/index.html) and have fun.
+7. Go to [swagger docs](http:localhost:1010/v1/swagger/index.html) and have fun.
 
 # Custom Config
 > If you need to change the default values of the configuration.
@@ -90,8 +59,8 @@ $ cp ./cmd/config/config_template.yml config.yml
 ```
 3. Edit it with your own values.
 > WARNING! Make sure that if you edit the values about the `DB service`, also you should modify the `docker-compose.yml` file.
-4. Restart the service `using Makefile` or `running Binary`.
-5. Go to [swagger docs](http:localhost:8080/v1/swagger/index.html) and have fun.
+4. Restart the service `using Makefile`.
+5. Go to [swagger docs](http:localhost:1010/v1/swagger/index.html) and have fun.
 
 # Tests
 - Using `Makefile`.
@@ -103,18 +72,22 @@ $ make test
 $ go test ./...
 ```
 
-# Up and Down DB service
+# Up DB service
 - Using `Makefile`.
 ```shell
   $ make db
 ```
-```shell
-  $ make db-down
-```
 - Using `docker-compose`
 ```shell
-$ docker-compose up -d booksdb
+$ docker-compose up -d servicedb
 ```
+
+# Service down
+- Using `Makefile`.
+```shell
+  $ make down
+```
+- Using `docker-compose`
 ```shell
 $ docker-compose down
 ```
